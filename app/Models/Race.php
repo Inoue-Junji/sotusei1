@@ -12,9 +12,21 @@ class Race extends Model
     //timestamps利用しない
     public $timestamps = false;
 
+    //primaryKeyの変更
+    protected $primaryKey = "race_id";
+
+
+
     //belongsTo設定
     public function runner()
     {
-        return $this->belongsTo('App\Runner');
+        return $this->belongsTo('App\Models\Runner');
     }
+    
+    //hasMany設定
+    public function lap()
+    {
+        return $this->hasMany('App\Models\Lap');
+    }
+    
 }

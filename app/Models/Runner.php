@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 // ↓1行追加
-// use Auth;
+use Auth;
 
 class Runner extends Model
 {
@@ -20,20 +20,21 @@ class Runner extends Model
     'updated_at',
   ];
   
-  public static function getAllOrderByGrade()
-    {
-      $runners = self::orderBy('grade', 'asc')
-      ->get();
-      return $runners;
-    }
+  // public static function getAllOrderByGrade()
+  //   {
+  //     $runners = self::orderBy('grade', 'asc')
+  //       ->get();
+  //     return $runners;
+  //   }
     // ↓新しい関数を追加←いじるとエラー出る
-  // public static function getMyAllOrderByGrade()
-  // {
-  //   $runners = self::where('runner_id', Auth::user()->id)
-  //     ->orderBy('grade', 'asc')
-  //     ->get();
-  //   return $runners;
-  // }
+  public static function getMyAllOrderByGrade()
+  {
+    $runners = self::where('runner_id', Auth::user()->id)
+      ->orderBy('grade', 'asc')
+      ->get();
+    return $runners;
+  }
+  
   //timestamps利用しない
     public $timestamps = false;
 
@@ -43,8 +44,6 @@ class Runner extends Model
     //hasMany設定
     public function races()
     {
-        return $this->hasMany('App\Race');
+      return $this->hasMany('App\Lap');
     }
-    
-  
 }

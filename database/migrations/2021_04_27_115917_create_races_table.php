@@ -14,10 +14,11 @@ class CreateRacesTable extends Migration
     public function up()
     {
         Schema::create('races', function (Blueprint $table) {
-            $table->id('race_id');
-            $table->date('date');
+            $table->id();
+            $table->integer('race_id')->nullable();
+            $table->date('date')->nullable();
             $table->integer('runner_id')->nullable();
-            $table->integer('total_distance');
+            $table->integer('total_distance')->nullable();
             $table->timestamps();
         });
     }

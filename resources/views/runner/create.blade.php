@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      {{ __('Create New Runner') }}
+      {{ __('選手登録') }}
     </h2>
   </x-slot>
 
@@ -13,11 +13,11 @@
           <form class="mb-6" action="{{ route('runner.store') }}" method="POST">
             @csrf
             <div class="flex flex-col mb-4">
-              <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="runner">Runner</label>
+              <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="runner">選手名</label>
               <input class="border py-2 px-3 text-grey-darkest" type="text" name="runner" id="runner">
             </div>
             <div class="flex flex-col mb-4">
-              <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="grade">Grade</label>
+              <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="grade">学年</label>
               <input class="border py-2 px-3 text-grey-darkest" type="integer" name="grade" id="grade">
             </div>
             <!--<div class="flex flex-col mb-4">-->
@@ -25,7 +25,7 @@
             <!--  <input class="border py-2 px-3 text-grey-darkest" type="text" name="comment" id="comment">-->
             <!--</div>-->
             <button type="submit" class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
-              Register
+              登録
             </button>
           </form>
         </div>

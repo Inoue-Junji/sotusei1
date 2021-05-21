@@ -19,27 +19,31 @@
                 <!-- ↓一覧ページへのリンクを追加 -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                   <x-nav-link :href="route('runner.index')" :active="request()->routeIs('runner.index')">
-                    {{ __('Index') }}
+                    {{ __('選手一覧') }}
                   </x-nav-link>
                 </div>
                 <!-- ↓作成ページへのリンクを追加 -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                   <x-nav-link :href="route('runner.create')" :active="request()->routeIs('runner.create')">
-                    {{ __('Create') }}
+                    {{ __('選手登録') }}
                   </x-nav-link>
                 </div>
                 <!-- ↓計測ページへのリンクを追加 -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <a href="/runner/measure">Measure</a>
+                    <x-nav-link :href="route('measure.index')" :active="request()->routeIs('measure.index')">
+                    {{ __('タイム計測') }}
+                  </x-nav-link>
                 </div>
-                <!-- ↓オーダー作成ページへのリンクを追加 -->
+                 <!--↓オーダー作成ページへのリンクを追加 -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <a href="/runner/measure">Arrange</a>
-                </div>
+                    <x-nav-link :href="route('measure.showrecord')" :active="request()->routeIs('measure.showrecord')">
+                    {{ __('記録一覧') }}
+                  </x-nav-link>                
+                 </div>
                 <!-- ↓個人記録ページへのリンクを追加 -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <a href="/runner/measure">Indiviual Record</a>
-                </div>
+                <!--<div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">-->
+                <!--    <a href="/runner/individual">個人記録</a>-->
+                <!--</div>-->
             </div>
 
             <!-- Settings Dropdown -->

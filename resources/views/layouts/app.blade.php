@@ -13,6 +13,8 @@
         <!-- Styles -->
         <!-- ↓変更 -->
         <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
+        <link rel='stylesheet' href="{{ secure_asset('css/style.css')}}">
+
         
         
         <!-- Scripts -->
@@ -20,6 +22,9 @@
         <script src="{{ secure_asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
@@ -35,5 +40,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <script src={{ asset('/js/measure.js') }}></script>
     </body>
 </html>

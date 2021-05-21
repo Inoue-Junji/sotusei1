@@ -14,10 +14,11 @@ class CreateLapsTable extends Migration
     public function up()
     {
         Schema::create('laps', function (Blueprint $table) {
-            $table->id('lap_no');
-            $table->integer('runner_id')->nullable();
-            $table->id('race_id');
-            $table->time('lap_time');
+            $table->id();
+            $table->integer('lap_no')->nullable();
+            $table->integer('runner_id');
+            $table->integer('race_id')->nullable();
+            $table->string('lap_time');
             $table->timestamps();
         });
     }

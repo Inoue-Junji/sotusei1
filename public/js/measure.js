@@ -366,22 +366,39 @@ function timeString(time) {
         new Date(time).toISOString().slice(s, r);
 }
 
+$(function(){
+    $.ajax({
+        url: "measure/{measure}",
+        dataType: "json",
+        success: data => {
+            //console.log(data);
+            data.forEach(val=>{
+                $('.runnerSelect').append(`<option value=${val.id}>${val.runner}</option>`)
+            });
+        },
+        error: () => {
+            
+        }
+    });
+});
+console.log($('.view').text());
 // ユニット追加
 function addUnit(storageObj) {
     unitId++;
     const id = storageObj !== undefined ? storageObj.id : unitId;
-
     document.getElementById('container').appendChild(document.createElement('div'));
     document.getElementById('container').lastChild.outerHTML =
-        "<div class='unit' id='u" + id + "'>" +
-        "    <input type='text' class='caption' placeholder='-- No Caption --'>" +
-        "    <button class='add'>+</button>" +
-        "    <button class='close'>x</button>" +
-        "    <div class='view'></div>" +
-        "    <div class='lap'></div>" +
-        "    <button class='reset'>RESET</button>" +
-        "    <button class='start'>START</button>" +
-        "</div>";
+        `<div class='unit' id='u${ id }'>
+            <select class='caption runnerSelect'>
+                <option hidden>選手を選択</option>
+            </select>
+            <button class='add'>+</button>
+            <button class='close'>x</button>
+            <div class='view'></div>
+            <div class='lap'></div>
+            <button class='reset'>RESET</button>
+            <button class='start'>START</button>
+        </div>`;
 
     const unit = document.getElementById('u' + id);
 
@@ -481,6 +498,7 @@ function addUnit(storageObj) {
             o.start.textContent = 'START';
             o.reset.textContent = 'RESET';
             o.start.style.backgroundColor = '#8f8';
+          //o.start.addClass('stop');
         }
         // 停止中
         else {
@@ -498,6 +516,26 @@ function addUnit(storageObj) {
         saveUnitParameters();
     });
 }
+
+$('#submit').on('click',function(){
+    const measureData = [];
+    for(let i in obj) {
+        const o = obj[i];
+        const measureTag = {
+            runner_id: o.caption.value,
+            lap_time  : timeString(-o.sTime)
+
+        };
+        measureData.push(measureTag);
+    }
+    console.log(measureData);
+
+    axios.post('post-measure',measureData).then(res=>{
+      console.log(res)
+  }).catch(e=>{
+  })
+});
+
 
 function closeButtonDisplay(f) {
     document.querySelector('#container .unit .close').style.display = f ? '' : 'none';
@@ -520,6 +558,7 @@ function saveUnitParameters() {
     }
     else {
         localStorage.setItem(storageKey, JSON.stringify(data));
+        //console.log(data);
     }
 }
 

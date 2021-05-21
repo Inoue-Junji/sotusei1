@@ -76,16 +76,13 @@
 <!--</body>-->
 <!--</html>-->
 
-<!DOCTYPE html>
-<html lang='ja'>
-    <head>
-        <meta charset='utf-8'>
-        <meta name='viewport' content='user-scalable=no,width=device-width,initial-scale=1'>
-        <title>stopwatch multiple</title>
-        <link rel='stylesheet' href="{{ secure_asset('css/style.css')}}">
-        <script src='script.js'></script>
-    </head>
-    <body>
+<x-app-layout>
+  <x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      {{ __('タイム計測') }}
+    </h2>
+  </x-slot>
+
         <div class='allControl'>
             <button id='allReset'>ALL RESET</button>
             <button id='export'>TEXT</button>
@@ -99,6 +96,10 @@
                 <option value='3'>1/1000</option>
             </select>
             <button id='numOfDay'>Day.Hour</button>
+            <!-- ↓計測ページへのリンクを追加 -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <a href="{{ route('dashboard') }}">戻る</a>
+                </div>
         </div>
         <div id='container'>
         </div>
@@ -106,6 +107,5 @@
             <button class='close'>x</button>
             <textarea class='text'></textarea>
         </div>
-         <script src={{ asset('/js/measure.js') }}></script>
-    </body>
-</html>
+        <button type="button" id="submit">結果を記録</button>
+</x-app-layout>

@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 // 下記2行を追加
 use Validator;
 use App\Models\Runner;
+use App\Models\Lap;
 // ↓追加
-// use Auth;
+use Auth;
+use App\Providers\RouteServiceProvider;
+
 
 class RunnerController extends Controller
 {
     // ↓関数を作成
-    //   public function __construct()
-    //   {
-    //     $this->middleware(['auth']);
-    //   }
+      public function __construct()
+      {
+        $this->middleware(['auth']);
+      }
     /**
      * Display a listing of the resource.
      *
@@ -24,11 +27,37 @@ class RunnerController extends Controller
      */
     public function index()
     {
-        // モデルに定義した関数を実行する．
-        $runners = Runner::getAllOrderByGrade();
-        // ddd($runners);
-        return view('runner.index', ['runners' => $runners]);
+      $runners = Runner::getMyAllOrderByGrade();
+      // ddd($runners);
+      return view('runner.index', ['runners' => $runners]);
     }
+
+  // public function show($id)
+    // {
+    //   // return view('runner.measure');
+    //     $runner = Runner::find($id);
+    //     // ddd($runner);
+    //     return view('runner.measure', ['runner' => $runner]);
+    // }
+    
+
+
+
+        public function show($runnerId){
+          $runner = Runner::where('id',$runnerId)->get();
+          return view('runner.show', ['runner'=>$runner]);
+    }
+    //     // モデルに定義した関数を実行する．
+    //     // $runners = Runner::getAllOrderByGrade();
+    //     // ddd($runners);
+    //     // return view('runner.index', ['runners' => $runners]);
+    //     // モデルに定義した関数を実行する．
+        
+    //     // $runners = Runner::getMyAllOrderByGrade();
+    //     // return view('runner.index', [
+    //     //     'runners' => $runners
+    //     // ]);
+    
 
     /**
      * Show the form for creating a new resource.
@@ -49,25 +78,27 @@ class RunnerController extends Controller
      */
     public function store(Request $request)
     {
-        // バリデーション
-  $validator = Validator::make($request->all(), [
-    'runner' => 'required | max:191',
-    //  'grade' => 'required',
-  ]);
-  // バリデーション:エラー
-  if ($validator->fails()) {
-    return redirect()
-      ->route('runner.create')
-      ->withInput()
-      ->withErrors($validator);
-  }
-  // フォームから送信されてきたデータとユーザIDをマージする
-//   $data = $request->merge(['runner_id' => Auth::user()->id])->all();
-  // create()は最初から用意されている関数
-  // 戻り値は挿入されたレコードの情報
-  $result = Runner::create($request->all());
-  // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
-  return redirect()->route('runner.index');
+            // バリデーション
+      $validator = Validator::make($request->all(), [
+        'runner' => 'required | max:191',
+        'grade' => 'required',
+      ]);
+      // バリデーション:エラー
+      if ($validator->fails()) {
+        return redirect()
+          ->route('runner.create')
+          ->withInput()
+          ->withErrors($validator);
+      }
+      // フォームから送信されてきたデータとユーザIDをマージする
+      // ddd($id);
+      $data = $request->merge(['runner_id' => Auth::user()->id])->all();
+      // create()は最初から用意されている関数
+      // 戻り値は挿入されたレコードの情報
+      $result = Runner::create($request->all());
+      // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
+      return redirect(RouteServiceProvider::HOME);
+
     }
 
     /**
@@ -77,27 +108,24 @@ class RunnerController extends Controller
      * @return \Illuminate\Http\Response
      */
      
+    // public function show($id)
+    // {
+    //   // return view('runner.measure');
+    //     $runner = Runner::find($id);
+    //     // ddd($runner);
+    //     return view('runner.measure', ['runner' => $runner]);
+    // }
+    
+   
     public function measure($id)
-    {
-        $runner = Runner::find($id);
-        //ddd($runner);
-        return view('runner.', ['runner' => $runner]);
+    { 
+      // ddd($id);
+      // $runner = Runner::find($id);
+      // ddd($runner);
+      // return view('runner.show', ['runner' => $runner]);
+      // 追加
+      return view('runner.measure');
     }
-     
-     
-    public function show($id)
-    {
-        $runner = Runner::find($id);
-        // ddd($runner);
-        return view('runner.measure', ['runner' => $runner]);
-    }
-    
-    
-    
-    
-    
-    
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -106,8 +134,9 @@ class RunnerController extends Controller
      */
     public function edit($id)
     {
-        $runner = Runner::find($id);
-        return view('runner.edit', ['runner' => $runner]);
+      $runner = Runner::where('id',$id)->get();
+      // ddd($id);
+      return view('runner.edit', ['runner' => $runner]);
     }
 
     /**
@@ -122,7 +151,7 @@ class RunnerController extends Controller
         //バリデーション
       $validator = Validator::make($request->all(), [
         'runner' => 'required | max:191',
-        // 'grade' => 'required',
+        'grade' => 'required',
       ]);
       //バリデーション:エラー
       if ($validator->fails()) {
@@ -133,12 +162,15 @@ class RunnerController extends Controller
       }
       //データ更新処理
       // updateは更新する情報がなくても更新が走る（updated_atが更新される）
-      $result = Runner::find($id)->update($request->all());
+      $result = Runner::where('id',$id)->update([
+        'runner'=>$request->runner,
+        'grade'=>$request->grade
+        ]);
       // fill()save()は更新する情報がない場合は更新が走らない（updated_atが更新されない）
-      // $redult = Todo::find($id)->fill($request->all())->save();
+      // $redult = ::find($id)->fill($request->all())->save();
       return redirect()->route('runner.index');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -147,7 +179,8 @@ class RunnerController extends Controller
      */
     public function destroy($id)
     {
-        $result = Runner::find($id)->delete();
+        $result = Runner::where('id',$id)->delete();
+        Lap::where('runner_id',$id)->delete();
         return redirect()->route('runner.index');
     }
     
@@ -175,4 +208,6 @@ class RunnerController extends Controller
     
 //   }
     
+    // protected $fillable = ['id','reservation_date','owner_name','owener_name_furigana',
+        // 'animal_name','animal_species','tel','mailaddress','other'];
 }

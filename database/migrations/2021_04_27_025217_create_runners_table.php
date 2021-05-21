@@ -16,7 +16,7 @@ class CreateRunnersTable extends Migration
         Schema::create('runners', function (Blueprint $table) {
             $table->id();
             // ↓追加
-            $table->integer('runner_id')->nullable();
+            $table->integer('runner_id');
             $table->string('runner');
             $table->integer('grade')->nullable();
             //   $table->text('comment')

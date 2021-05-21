@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      {{ __('Show Runner Detail') }}
+      {{ __('選手詳細') }}
     </h2>
   </x-slot>
 
@@ -11,19 +11,19 @@
         <div class="p-6 bg-white border-b border-gray-200">
           <div class="mb-6">
             <div class="flex flex-col mb-4">
-              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">Runner</p>
+              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">選手名</p>
               <p class="py-2 px-3 text-grey-darkest" id="runner">
-               <!--<>-->
+                {{$runner[0]->runner}}
               </p>
             </div>
             <div class="flex flex-col mb-4">
-              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">Grade</p>
+              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">学年</p>
               <p class="py-2 px-3 text-grey-darkest" id="grade">
-                <!--<>-->
+                {{$runner[0]->grade}}
               </p>
             </div>
             <a href="{{ route('runner.index') }}" class="block text-center w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
-              Back
+              戻る
             </a>
           </div>
         </div>

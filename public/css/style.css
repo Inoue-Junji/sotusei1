@@ -42,6 +42,7 @@ body {
     -webkit-user-select: none;
     border: 0;
     cursor: pointer;
+    width: 100px
 }
 .close, .add {
     width: 25px;
